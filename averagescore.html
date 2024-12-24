@@ -8,32 +8,38 @@
 	</head>
 	<body>
 		<h1> Average Score Calculator</h1>
-		<h2>Section 1</h2>
-		<input type="number" placeholder="Current grade in points" min="0"><br>
-		<input type="number" placeholder="Possible grade in points" min="0"><br>
-		<input type="number" placeholder="Weight in percent" min="0" max="100"><br><br>
-		
-		<h2>Section 2</h2>
-		<input type="number" placeholder="Current grade in points" min="0"><br>
-		<input type="number" placeholder="Possible grade in points" min="0"><br>
-		<input type="number" placeholder="Weight in percent" min="0" max="100"><br><br>
-		
-		<h2>Section 3 (optional)</h2>
-		<input type="number" placeholder="Current grade in points" min="0"><br>
-		<input type="number" placeholder="Possible grade in points" min="0"><br>
-		<input type="number" placeholder="Weight in percent" min="0" max="100"><br><br>
-		
-		<h2>Next updated section</h2>
-		<select>
-			<option selected disabled>Next section to be updated</option>
-			<option value="section1">Section 1</option>
-			<option value="section2">Section 2</option>
-			<option value="section3">Section 3</option>
-		</select><br>
-		<input type="number" placeholder="Points per assignment" min="0"><br>
-		<input type="number" placeholder="Number of assignments into the future" min="1"><br><br>
-		
-		<input type="number" placeholder="Desired overall grade in percent" min="0"><br>
-		<button>Calculate Average Score</button>
+		<div id="input">
+			<h2>Section 1</h2>
+			<input type="number" placeholder="Current grade in points" min="0" id="cur1"><br>
+			<input type="number" placeholder="Possible grade in points" min="0" id="pos1"><br>
+			<input type="number" placeholder="Weight in percent" min="0" max="100" id="w81"><br><br>
+			
+			<h2>Section 2</h2>
+			<input type="number" placeholder="Current grade in points" min="0" id="cur2"><br>
+			<input type="number" placeholder="Possible grade in points" min="0" id="pos2"><br>
+			<input type="number" placeholder="Weight in percent" min="0" max="100" id="w82"><br><br>
+			
+			<h2>Section 3 (optional)</h2>
+			<input type="number" placeholder="Current grade in points" min="0" id="cur3"><br>
+			<input type="number" placeholder="Possible grade in points" min="0" id="pos3"><br>
+			<input type="number" placeholder="Weight in percent (default 0)" min="0" max="100" id="w83"><br><br>
+			
+			<h2>Next updated section</h2>
+			<select id="nextsec">
+				<option value="none" selected disabled>Next section to be updated</option>
+				<option value="section1">Section 1</option>
+				<option value="section2">Section 2</option>
+				<option value="section3">Section 3</option>
+			</select><br>
+			<input type="number" placeholder="Points per assignment" min="0" id="points"><br>
+			<input type="number" placeholder="Number of assignments into the future" min="1" id="future"><br><br>
+			
+			<input type="number" placeholder="Desired overall grade in percent" min="0" id="overall"><br>
+			<button id="calculate">Calculate Average Score</button>
+		</div>
+		<div id="output" style="display:none;">
+			You should receive an average of <span id="res1">#</span> out of <span id="res2">#</span> points in your next <span id="res3">#</span> assignments in Section <span id="res4">#</span> to have an overall grade of <span id="res5">#</span>%.
+		</div>
+		<script src="./assets/averagescore.js"></script>
 	</body>
 </html>
