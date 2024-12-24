@@ -35,3 +35,16 @@ option[disabled] {
 option {
 	color: #ddd;
 }
+
+#msg {
+	font-size: 20px;
+	margin: 0;
+}
+
+#msg.error {
+	color: red;
+}
+
+#msg.loading {
+	color: #aaa;
+}
