@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+
+body {
+	background-color: rgb(30, 50, 76);
+	color: #ddd;
+	font-family: "Atkinson Hyperlegible";
+}
+
+input,
+select,
+button {
+	background-color: rgb(30, 50, 76);
+	color: #ddd;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 500px;
+	height: 40px;
+	font-family: "Atkinson Hyperlegible";
+	font-size: 18px;
+	margin: 3px;
+	padding: 3px;
+	box-sizing: border-box;
+}
+
+input::placeholder,
+option[disabled] {
+	color: #8a8a8a;
+}
+
+option {
+	color: #ddd;
+}

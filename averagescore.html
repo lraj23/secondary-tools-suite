@@ -3,24 +3,28 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="./assets/common.css">
 		<title>Average Score Calculator</title>
 	</head>
 	<body>
 		<h1> Average Score Calculator</h1>
-		<input type="number" placeholder="Current grade in Homework/Classwork in points">
-		<input type="number" placeholder="Possible grade in Homework/Classwork in points">
-		<input type="number" placeholder="Weight of Homework/Classwork in percent">
-		<input type="number" placeholder="Current grade in Assessments/Tests in points">
-		<input type="number" placeholder="Possible grade in Assessments/Tests in points">
-		<input type="number" placeholder="Weight of Assessments/Tests in percent">
-		<input type="number" placeholder="Desired overall grade in percent">
+		<input type="number" placeholder="Current grade in Homework/Classwork in points" min="0"><br>
+		<input type="number" placeholder="Possible grade in Homework/Classwork in points" min="0"><br>
+		<input type="number" placeholder="Weight of Homework/Classwork in percent" min="0" max="100"><br><br>
+		
+		<input type="number" placeholder="Current grade in Assessments/Tests in points" min="0"><br>
+		<input type="number" placeholder="Possible grade in Assessments/Tests in points" min="0"><br>
+		<input type="number" placeholder="Weight of Assessments/Tests in percent" min="0" max="100"><br><br>
+		
+		<input type="number" placeholder="Desired overall grade in percent" min="0"><br><br>
+		
 		<select>
 			<option selected disabled>Next section to be updated</option>
 			<option value="assignments">Homework/Classwork</option>
 			<option value="assessments">Assessments/Tests</option>
-		</select>
-		<input type="number" placeholder="Usual points worth per assignment in next updated section">
-		<input type="number" placeholder="Number of assignments into the future">
+		</select><br>
+		<input type="number" placeholder="Usual points per assignment in next updated section" min="0"><br>
+		<input type="number" placeholder="Number of assignments into the future" min="1"><br><br>
 		<button>Calculate Average Score</button>
 	</body>
 </html>
