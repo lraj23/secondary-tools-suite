@@ -27,6 +27,7 @@ calculate.onclick = function () {
 	}
 	if ((!section3) && (nextsecval === 3)) {
 		stat("error", "Next updated section can not be Section 3 if Section 3 is unused.");
+		return;
 	}
 	if (weight1val + weight2val + (section3 ? weight3val : 0) != 100) {
 		stat("error", "Weights of sections in use should add up to 100%.");
@@ -49,11 +50,14 @@ calculate.onclick = function () {
 		}
 	}
 
-	input.style.display = "none";
+	input.className = "dieOut";
+	setTimeout(function () {
+		input.style.display = "none";
+		output.style.display = "";
+	}, 2900);
 	res1.innerHTML = result;
 	res2.innerHTML = pointsval;
 	res3.innerHTML = futureval;
 	res4.innerHTML = nextsecval;
 	res5.innerHTML = overallval;
-	output.style.display = "";
 };

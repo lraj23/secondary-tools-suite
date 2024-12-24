@@ -1,5 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
 
+@keyframes dieOut {
+	from {
+		opacity: 1;
+		height: 800px;
+		overflow: hidden;
+	}
+
+	to {
+		opacity: 0;
+		display: none;
+		height: 0;
+		overflow: hidden;
+	}
+}
+
+.dieOut {
+	animation-duration: 3s;
+	animation-name: dieOut;
+	animation-iteration-count: 1;
+}
+
 body {
 	background-color: rgb(30, 50, 76);
 	color: #ddd;
