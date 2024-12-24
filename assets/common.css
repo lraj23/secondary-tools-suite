@@ -6,6 +6,11 @@ body {
 	font-family: "Atkinson Hyperlegible";
 }
 
+h2 {
+	font-size: 25px;
+	margin: 0;
+}
+
 input,
 select,
 button {
@@ -14,11 +19,11 @@ button {
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	width: 500px;
-	height: 40px;
+	height: 36px;
 	font-family: "Atkinson Hyperlegible";
 	font-size: 18px;
 	margin: 3px;
-	padding: 3px;
+	padding-left: 5px;
 	box-sizing: border-box;
 }
 
