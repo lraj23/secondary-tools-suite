@@ -48,6 +48,34 @@ button {
 	box-sizing: border-box;
 }
 
+button {
+	background-color: rgb(60, 80, 106);
+	box-shadow: 0 4px rgb(0, 20, 46);
+	border: none;
+	height: 32px;
+}
+
+button:active,
+button.remove:active,
+button.add:active {
+	box-shadow: none;
+	transform: translateY(4px);
+}
+
+button.remove {
+	background-color: rgb(255, 60, 86);
+	box-shadow: 0 4px rgb(195, 0, 26);
+	width: 150px;
+	margin-bottom: 8px;
+}
+
+button.add {
+	background-color: rgb(60, 155, 106);
+	box-shadow: 0 4px rgb(0, 95, 46);
+	width: 250px;
+	margin-bottom: 8px;
+}
+
 input::placeholder,
 option[disabled] {
 	color: #8a8a8a;
@@ -68,4 +96,36 @@ option {
 
 #msg.loading {
 	color: #aaa;
+}
+
+.hw-item {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 975px;
+	height: 50px;
+	padding: 5px 4px 5px 4px;
+	box-sizing: border-box;
+}
+
+input[type="text"],
+.hw-item select {
+	width: 250px;
+	margin: 1px;
+}
+
+input[type="time"],
+input[type="date"],
+.hw-item button,
+.nonmove-item button {
+	width: 150px;
+	margin: 1px;
+}
+
+.nonmove-item {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 725px;
+	height: 50px;
+	padding: 5px 4px 5px 4px;
+	box-sizing: border-box;
 }
