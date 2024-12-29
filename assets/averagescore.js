@@ -9,13 +9,15 @@ calculate.onclick = function () {
 	stat("loading", "Loading...");
 	document.querySelectorAll("input,select").forEach(function (e) { window[e.id + "val"] = parseFloat(e.value); });
 	var section3, result;
-	if ((isNaN(cur1val) || isNaN(pos1val) || isNaN(weight1val) || isNaN(cur2val) || isNaN(pos2val) || isNaN(weight2val) || (nextsecval === 0) || isNaN(pointsval) || isNaN(futureval) || isNaN(overallval))) {
+	if (isNaN(cur1val * pos1val * weight1val * cur2val * pos2val * weight2val * pointsval * futureval * overallval) || (nextsecval === 0)) {
+		// If any of the values in the multiplication in the isNaN is NaN, their product will be NaN. Otherwise, the result will not be NaN.
 		stat("error", "Missing input values");
 		return;
 	}
 	if (isNaN(cur3val) && isNaN(pos3val) && isNaN(weight3val)) {
 		section3 = false;
-	} else if (!isNaN(cur3val) && !isNaN(pos3val) && !isNaN(weight3val)) {
+	} else if (!isNaN(cur3val * pos3val * weight3val)) {
+		// If any of the values in the !isNaN is Nan, their product will be NaN. Otherwise (if all the values are filled) !isNaN will return false.
 		section3 = true;
 	} else {
 		stat("error", "Containing 1 or 2 Section 3 values. Leave all or none blank.");

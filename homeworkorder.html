@@ -11,26 +11,14 @@
 		<div id="input">
 			<div id="hw-items">
 				<button class="add" id="add-hw">Add assignment</button>
-				<div class="hw-item">
-					<input type="text" placeholder="Assignment name"><input type="date"><select>
-						<option value="-1" selected disabled>Assignment difficulty</option>
-						<option value="0">Really easy</option>
-						<option value="1">Simple</option>
-						<option value="2">Needing effort</option>
-						<option value="3">Confusing</option>
-						<option value="4">Confounding!</option>
-					</select><input type="time"><button class="remove">Remove</button>
-				</div>
 			</div><br>
 			<div id="nonmove-items">
 				<button class="add" id="add-event">Add scheduled event</button>
-				<div class="nonmove-item">
-					<input type="text" placeholder="Scheduled event name"><input type="time"><input type="time"><button class="remove">Remove</button>
-				</div>
 			</div><br>
-			<input type="time">
-			<input type="time"><br>
+			<input type="time" title="Enter the start time of your work" id="start">
+			<input type="time" title="Enter the end time of your work" id="end"><br>
 			<button id="calculate">Calculate Homework Order</button>
+			<p id="msg"></p>
 		</div>
 		<script src="./assets/homeworkorder.js"></script>
 	</body>
