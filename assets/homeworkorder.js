@@ -185,7 +185,6 @@ calculate.onclick = function () {
 	// available work time, splitting assignments into more than one piece if
 	// necessary. Also, assignments can be shortened or lengthened by up to ten
 	// minutes if doing so cleanly fits an assignment into a space.
-	debugger;
 	var availBlockI = 0;
 	for (let i = 0; i < hwItems.length; i++) {
 		let hwItem = hwItems[i];
