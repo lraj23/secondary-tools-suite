@@ -3,7 +3,7 @@
 @keyframes dieOut {
 	from {
 		opacity: 1;
-		height: 800px;
+		height: var(--input-height);
 		overflow: hidden;
 	}
 
@@ -128,4 +128,8 @@ input[type="date"],
 	height: 50px;
 	padding: 5px 4px 5px 4px;
 	box-sizing: border-box;
+}
+
+#output {
+	font-size: 18px;
 }

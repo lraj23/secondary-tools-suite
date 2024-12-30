@@ -52,6 +52,9 @@ calculate.onclick = function () {
 		}
 	}
 
+	var inputHeightStyle=document.createElement("style");
+	inputHeightStyle.innerHTML = ':root{--input-height:' + getComputedStyle(input).height + ';}';
+	document.head.appendChild(inputHeightStyle);
 	input.className = "dieOut";
 	setTimeout(function () {
 		input.style.display = "none";

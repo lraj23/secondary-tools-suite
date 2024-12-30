@@ -140,11 +140,18 @@ calculate.onclick = function () {
 			is_err = true;
 		}
 	});
-	if (!is_err) stat("", "");
+	if (is_err) return;
+	else stat("", "");
 
 	// This code uses the starting and ending times, as well as the events, to
 	// determine when the student can work on homework
 	var availTimes = [[timeToMinutes(start), timeToMinutes(end)]];
+	events.sort(function (event1, event2) {
+		var end1 = event1.end, end2 = event2.end;
+		if (end1 < end2) return -1;
+		if (end1 === end2) return 0;
+		return 1;
+	});
 	events.forEach(function (event) {
 		var start = timeToMinutes(event.start); // ex. 900
 		var end = timeToMinutes(event.end); // ex. 1080
@@ -171,33 +178,48 @@ calculate.onclick = function () {
 	hwItems.sort(function (item1, item2) {
 		var id1 = item1.id, id2 = item2.id;
 		if (id1 < id2) return -1;
-		else if (id1 === id2) return 0;
-		else return 1;
+		if (id1 === id2) return 0;
+		return 1;
 	});
 
 	// This code gives every assignment a starting and ending time based on the
 	// available work time, splitting assignments into more than one piece if
-	// necessary. Also, assignments can be shortened or lengthened up to 10 min
-	// if doing so cleanly fits an assignment into a space.
+	// necessary. Also, assignments can be shortened or lengthened by up to ten
+	// minutes if doing so cleanly fits an assignment into a space.
 	var availBlock = 0;
 	for (i = 0; i < hwItems.length; i++) {
-		var hwItem = hwItems[i];
-		var hwTime = timeToMinutes(hwItem.duration);
-		var is_done = false;
-		for (var j = availBlock; j < availTimes.length; j++) {
-			var block = availTimes[j];
-			var partUsed = block[2] || 0;
-			var blockTime = block[1] - block[0] - partUsed;
+		let hwItem = hwItems[i];
+		let hwTime = timeToMinutes(hwItem.duration);
+		let is_done = false;
+		for (let j = availBlock; j < availTimes.length; j++) {
+			let block = availTimes[j];
+			let partUsed = block[2] || 0;
+			let blockTime = block[1] - block[0] - partUsed;
 			if (partUsed) {
-				if (Math.abs(hwTime - blockTime) <= 10 * block[3] + 10) {
-					var timeChanged = (blockTime - hwTime) / (block[3] + 1);
+				let totalTime = hwTime + partUsed;
+				let extraTime = hwTime - blockTime;
+				if ((extraTime < 0) && (extraTime >= -7)) {
+					let timeChanged = Math.round(-extraTime / (block[3] + 1));
 					hwItem.startTime = block[0] + partUsed;
 					hwItem.endTime = block[0] + partUsed + hwTime;
-					for (var k = i - block[3], l = 0; k <= i; k++, l++) {
+					for (let k = i - block[3], l = 0; k <= i; k++, l++) {
 						hwItems[k].startTime += timeChanged * l;
-						hwItems[k].endTime += timeChanged * (l + 1);
-						hwItems[k].duration = minutesToTime(timeToMinutes(hwItems[k].duration) + timeChanged);
+						hwItems[k].endTime += timeChanged * (l + 1) - (k == i ? 1 : 0);
+						hwItems[k].duration = minutesToTime(timeToMinutes(hwItems[k].duration) + timeChanged - (k == i ? 1 : 0));
 					}
+					availBlock++;
+					is_done = true;
+					break;
+				} else if ((extraTime > 0) && ((blockTime + partUsed) / totalTime >= 0.88)) {
+					let constant = (blockTime + partUsed) / totalTime;
+					hwItem.startTime = block[0] + partUsed;
+					hwItem.endTime = block[0] + partUsed + hwTime;
+					for (let k = i - block[3]; k <= i; k++) {
+						hwItems[k].startTime = Math.round((hwItems[k].startTime - block[0]) * constant) + block[0];
+						hwItems[k].endTime = Math.round((hwItems[k].endTime - block[0]) * constant) + block[0];
+						hwItems[k].duration = minutesToTime(Math.round(timeToMinutes(hwItems[k].duration) * constant));
+					}
+					availBlock++;
 					is_done = true;
 					break;
 				} else if (hwTime < blockTime) {
@@ -220,9 +242,23 @@ calculate.onclick = function () {
 					availBlock++;
 					is_done = true;
 					break;
+				} else {
+					hwItem.startTime = block[0] + partUsed;
+					hwItem.endTime = block[1];
+					availBlock++;
+					is_done = true;
+					break;
 				}
 			} else {
-				if (Math.abs(hwTime - blockTime) <= 10) {
+				let extraTime = hwTime - blockTime;
+				if ((extraTime < 0) && (extraTime >= -7)) {
+					hwItem.startTime = block[0];
+					hwItem.endTime = block[1];
+					hwItem.duration = minutesToTime(blockTime);
+					availBlock++;
+					is_done = true;
+					break;
+				} else if ((extraTime > 0) && (blockTime / hwTime >= 0.88)) {
 					hwItem.startTime = block[0];
 					hwItem.endTime = block[1];
 					hwItem.duration = minutesToTime(blockTime);
@@ -249,17 +285,37 @@ calculate.onclick = function () {
 					availBlock++;
 					is_done = true;
 					break;
+				} else {
+					hwItem.startTime = block[0];
+					hwItem.endTime = block[1];
+					availBlock++;
+					is_done = true;
+					break;
 				}
 			}
 		}
 		if (!is_done) {
-			var endOfLastEvent = timeToMinutes(events[events.length - 1].end);
-			var endOfLastBlock = availTimes[availTimes.length - 1][1];
-			var lastMinute = (endOfLastEvent > endOfLastBlock ? endOfLastEvent : endOfLastBlock);
+			let lastMinute = Math.max(timeToMinutes((events[events.length - 1] || { end: "00:00" }).end), availTimes[availTimes.length - 1][1]);
 			availTimes.push([lastMinute, lastMinute + hwTime]);
 			hwItem.startTime = lastMinute;
 			hwItem.endTime = lastMinute + hwTime;
+			availBlock++;
 		}
 	}
 	console.log(hwItems);
+
+	var input = document.getElementById("input"), output = document.getElementById("output");
+	var inputHeightStyle = document.createElement("style");
+	inputHeightStyle.innerHTML = ':root{--input-height:' + getComputedStyle(input).height + ';}';
+	document.head.appendChild(inputHeightStyle);
+	input.className = "dieOut";
+	setTimeout(function () {
+		input.style.display = "none";
+		output.style.display = "";
+	}, 2900);
+	hwItems.forEach(function (hwItem, i) {
+		var p = document.createElement("span");
+		p.innerText = "You should " + (hwItem.id ? "" : "continue to") + " work on " + hwItem.name + " for " + timeToMinutes(hwItem.duration) + " minutes, from " + minutesToTime(hwItem.startTime) + " to " + minutesToTime(hwItem.endTime) + "." + ((hwItems[i + 1] || true).id ? "\n\n" : "\n");
+		output.appendChild(p);
+	});
 }
