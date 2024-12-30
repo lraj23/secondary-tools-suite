@@ -133,3 +133,7 @@ input[type="date"],
 #output {
 	font-size: 18px;
 }
+
+a {
+	color: #ddd;
+}
