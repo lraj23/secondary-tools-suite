@@ -77,7 +77,6 @@ addEvent.onclick = function () {
 addEvent.click();
 
 calculate.onclick = function () {
-	console.clear();
 	var hwItems = [];
 	var events = [];
 	var is_err = false;
@@ -186,123 +185,94 @@ calculate.onclick = function () {
 	// available work time, splitting assignments into more than one piece if
 	// necessary. Also, assignments can be shortened or lengthened by up to ten
 	// minutes if doing so cleanly fits an assignment into a space.
-	var availBlock = 0;
-	for (i = 0; i < hwItems.length; i++) {
+	debugger;
+	var availBlockI = 0;
+	for (let i = 0; i < hwItems.length; i++) {
 		let hwItem = hwItems[i];
 		let hwTime = timeToMinutes(hwItem.duration);
-		let is_done = false;
-		for (let j = availBlock; j < availTimes.length; j++) {
-			let block = availTimes[j];
+		if (availBlockI < availTimes.length) {
+			let block = availTimes[availBlockI];
 			let partUsed = block[2] || 0;
 			let blockTime = block[1] - block[0] - partUsed;
+			let extraTime = hwTime - blockTime;
 			if (partUsed) {
 				let totalTime = hwTime + partUsed;
-				let extraTime = hwTime - blockTime;
 				if ((extraTime < 0) && (extraTime >= -7)) {
 					let timeChanged = Math.round(-extraTime / (block[3] + 1));
 					hwItem.startTime = block[0] + partUsed;
 					hwItem.endTime = block[0] + partUsed + hwTime;
-					for (let k = i - block[3], l = 0; k <= i; k++, l++) {
-						hwItems[k].startTime += timeChanged * l;
-						hwItems[k].endTime += timeChanged * (l + 1) - (k == i ? 1 : 0);
-						hwItems[k].duration = minutesToTime(timeToMinutes(hwItems[k].duration) + timeChanged - (k == i ? 1 : 0));
+					for (let j = i - block[3]; j <= i; j++) {
+						hwItems[j].startTime += timeChanged * (j - i + block[3]);
+						hwItems[j].endTime += timeChanged * (j - 1 + block[3] + 1) - (j == i ? 1 : 0);
+						hwItems[j].duration = minutesToTime(timeToMinutes(hwItems[j].duration) + timeChanged - (j == i ? 1 : 0));
 					}
-					availBlock++;
-					is_done = true;
-					break;
+					availBlockI++;
 				} else if ((extraTime > 0) && ((blockTime + partUsed) / totalTime >= 0.88)) {
 					let constant = (blockTime + partUsed) / totalTime;
 					hwItem.startTime = block[0] + partUsed;
 					hwItem.endTime = block[0] + partUsed + hwTime;
-					for (let k = i - block[3]; k <= i; k++) {
-						hwItems[k].startTime = Math.round((hwItems[k].startTime - block[0]) * constant) + block[0];
-						hwItems[k].endTime = Math.round((hwItems[k].endTime - block[0]) * constant) + block[0];
-						hwItems[k].duration = minutesToTime(Math.round(timeToMinutes(hwItems[k].duration) * constant));
+					for (let j = i - block[3]; j <= i; j++) {
+						hwItems[j].startTime = Math.round((hwItems[j].startTime - block[0]) * constant) + block[0];
+						hwItems[j].endTime = Math.round((hwItems[j].endTime - block[0]) * constant) + block[0];
+						hwItems[j].duration = minutesToTime(Math.round(timeToMinutes(hwItems[j].duration) * constant));
 					}
-					availBlock++;
-					is_done = true;
-					break;
-				} else if (hwTime < blockTime) {
+					availBlockI++;
+				} else if (extraTime < 0) {
 					hwItem.startTime = block[0] + partUsed;
 					hwItem.endTime = block[0] + partUsed + hwTime;
 					block[2] += hwTime;
 					block[3]++;
-					is_done = true;
-					break;
-				} else if (hwTime > blockTime) {
+				} else if (extraTime > 0) {
+					console.log(hwTime, hwTime - blockTime, minutesToTime(hwTime - blockTime));
 					hwItems.splice(i + 1, 0, {
 						name: hwItem.name,
 						dueDate: hwItem.dueDate,
 						difficulty: hwItem.difficulty,
-						duration: minutesToTime(timeToMinutes(hwItem.duration) - blockTime)
+						duration: minutesToTime(hwTime - blockTime)
 					});
 					hwItem.startTime = block[0] + partUsed;
 					hwItem.endTime = block[1];
 					hwItem.duration = minutesToTime(blockTime);
-					availBlock++;
-					is_done = true;
-					break;
+					availBlockI++;
 				} else {
 					hwItem.startTime = block[0] + partUsed;
 					hwItem.endTime = block[1];
-					availBlock++;
-					is_done = true;
-					break;
+					availBlockI++;
 				}
-			} else {
-				let extraTime = hwTime - blockTime;
-				if ((extraTime < 0) && (extraTime >= -7)) {
-					hwItem.startTime = block[0];
-					hwItem.endTime = block[1];
-					hwItem.duration = minutesToTime(blockTime);
-					availBlock++;
-					is_done = true;
-					break;
-				} else if ((extraTime > 0) && (blockTime / hwTime >= 0.88)) {
-					hwItem.startTime = block[0];
-					hwItem.endTime = block[1];
-					hwItem.duration = minutesToTime(blockTime);
-					availBlock++;
-					is_done = true;
-					break;
-				} else if (hwTime < blockTime) {
-					hwItem.startTime = block[0];
-					hwItem.endTime = block[0] + hwTime;
-					block[2] = hwTime;
-					block[3] = 1;
-					is_done = true;
-					break;
-				} else if (hwTime > blockTime) {
-					hwItems.splice(i + 1, 0, {
-						name: hwItem.name,
-						dueDate: hwItem.dueDate,
-						difficulty: hwItem.difficulty,
-						duration: minutesToTime(timeToMinutes(hwItem.duration) - blockTime)
-					});
-					hwItem.startTime = block[0];
-					hwItem.endTime = block[1];
-					hwItem.duration = minutesToTime(blockTime);
-					availBlock++;
-					is_done = true;
-					break;
-				} else {
-					hwItem.startTime = block[0];
-					hwItem.endTime = block[1];
-					availBlock++;
-					is_done = true;
-					break;
-				}
+			} else if (
+				((extraTime < 0) && (extraTime >= -7)) || // hwTime can be stretched by up to 7 min to fill blockTime
+				((extraTime > 0) && (blockTime / hwTime >= 0.88)) || // hwTime multiplied by 0.88<=num<1 can be blockTime
+				(extraTime === 0) // the assignment fits perfectly inside the block of time
+			) {
+				hwItem.startTime = block[0];
+				hwItem.endTime = block[1];
+				hwItem.duration = minutesToTime(blockTime);
+				availBlockI++;
+			} else if (extraTime < 0) {
+				hwItem.startTime = block[0];
+				hwItem.endTime = block[0] + hwTime;
+				block[2] = hwTime;
+				block[3] = 1;
+			} else if (extraTime > 0) {
+				hwItems.splice(i + 1, 0, {
+					name: hwItem.name,
+					dueDate: hwItem.dueDate,
+					difficulty: hwItem.difficulty,
+					duration: minutesToTime(hwTime - blockTime)
+				});
+				hwItem.startTime = block[0];
+				hwItem.endTime = block[1];
+				hwItem.duration = minutesToTime(blockTime);
+				availBlockI++;
 			}
-		}
-		if (!is_done) {
-			let lastMinute = Math.max(timeToMinutes((events[events.length - 1] || { end: "00:00" }).end), availTimes[availTimes.length - 1][1]);
+		} else {
+			let lastMinute = Math.max(timeToMinutes((events[events.length - 1] || { end: "00:00" }).end), (availTimes[availTimes.length - 1] || [0, 0])[1]);
 			availTimes.push([lastMinute, lastMinute + hwTime]);
 			hwItem.startTime = lastMinute;
 			hwItem.endTime = lastMinute + hwTime;
-			availBlock++;
+			availBlockI++;
 		}
 	}
-	console.log(hwItems);
 
 	var input = document.getElementById("input"), output = document.getElementById("output");
 	var inputHeightStyle = document.createElement("style");
