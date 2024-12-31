@@ -16,65 +16,23 @@ function minutesToTime(mins) {
 	return Math.floor(mins / 60).toString().padStart(2, "0") + ":" + (mins % 60).toString().padStart(2, "0");
 }
 
+var hwItemCounter = 0;
 addHW.onclick = function () {
 	var hwItem = document.createElement("div");
+	hwItemCounter++;
 	hwItem.className = "hw-item";
-	var hwName = document.createElement("input");
-	hwName.type = "text";
-	hwName.placeholder = "Assignment name";
-	hwName.title = "Enter the name of this assignment";
-	var hwDueDate = document.createElement("input");
-	hwDueDate.type = "date";
-	hwDueDate.title = "Enter the due date of this assignment";
-	var hwDifficulty = document.createElement("select");
-	hwDifficulty.innerHTML = '<option value="-1" selected disabled>Assignment difficulty</option><option value="0">Really easy</option><option value="1">Simple</option><option value="2">Needing effort</option><option value="3">Confusing</option><option value="4">Confounding!</option>';
-	hwDifficulty.title = "Enter the difficulty of this assignment";
-	var hwDuration = document.createElement("input");
-	hwDuration.type = "time";
-	hwDuration.title = "Enter the approximate duration of this assignment";
-	var removeHW = document.createElement("button");
-	removeHW.className = "remove";
-	removeHW.innerText = "Remove";
-	removeHW.title = "Use this button to remove this assignment";
+	hwItem.innerHTML = `<label for="hwName${hwItemCounter}">Assignment name</label><input type="text" placeholder="Assignment name" title="Enter the name of this assignment" id="hwName${hwItemCounter}"><br><label for="hwDueDate${hwItemCounter}">Assignment due date</label><input type="date" title="Enter the due date of this assignment" id="hwDueDate${hwItemCounter}"><br><label for="hwDifficulty${hwItemCounter}">Assignment difficulty</label><select title="Enter the difficulty of this assignment" id="hwDifficulty${hwItemCounter}"><option value="-1" selected disabled>Assignment difficulty</option><option value="0">Really easy</option><option value="1">Simple</option><option value="2">Needing effort</option><option value="3">Confusing</option><option value="4">Confounding!</option></select><br><label for="hwDuration${hwItemCounter}">Approximate duration (12AM=0min)</label><input type="time" title="Enter the approximate duration of this assignment; 12AM is 0min, 1:30AM is 90min, etc." id="hwDuration${hwItemCounter}"><br><button class="remove" title="Use this button to remove this assignment" onclick="this.parentNode.remove()">Remove</button>`;
 	document.getElementById("hw-items").appendChild(hwItem);
-	hwItem.appendChild(hwName);
-	hwItem.appendChild(hwDueDate);
-	hwItem.appendChild(hwDifficulty);
-	hwItem.appendChild(hwDuration);
-	hwItem.appendChild(removeHW);
-	removeHW.onclick = function () {
-		hwItem.remove();
-	};
 };
-addHW.click();
 
+var eventCounter = 0;
 addEvent.onclick = function () {
 	var event = document.createElement("div");
+	eventCounter++;
 	event.className = "nonmove-item";
-	var eventName = document.createElement("input");
-	eventName.type = "text";
-	eventName.title = "Enter the name of this event";
-	eventName.placeholder = "Scheduled event name";
-	var eventStart = document.createElement("input");
-	eventStart.type = "time";
-	eventStart.title = "Enter the start time of this event";
-	var eventEnd = document.createElement("input");
-	eventEnd.type = "time";
-	eventEnd.title = "Enter the end time of this event";
-	var removeEvent = document.createElement("button");
-	removeEvent.className = "remove";
-	removeEvent.innerText = "Remove";
-	removeEvent.title = "Use this button to remove this event";
+	event.innerHTML = `<label for="eventName${eventCounter}">Event name</label><input type="text" title="Enter the name of this event" placeholder="Scheduled event name" id="eventName${eventCounter}"><br><label for="eventStart${eventCounter}">Event start time</label><input type="time" title="Enter the start time of this event" id="eventStart${eventCounter}"><br><label for="eventEnd${eventCounter}">Event end time</label><input type="time" title="Enter the end time of this event" id="eventEnd${eventCounter}"><br><button class="remove" title="Use this button to remove this event" onclick="this.parentNode.remove()">Remove</button>`;
 	document.getElementById("nonmove-items").appendChild(event);
-	event.appendChild(eventName);
-	event.appendChild(eventStart);
-	event.appendChild(eventEnd);
-	event.appendChild(removeEvent);
-	removeEvent.onclick = function () {
-		event.remove();
-	};
 };
-addEvent.click();
 
 calculate.onclick = function () {
 	var hwItems = [];

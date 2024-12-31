@@ -3,26 +3,29 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Average Score Calculator, the tool to maintain good grades!">
 		<link type="text/css" rel="stylesheet" href="./assets/common.css">
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap"></noscript>
 		<title>Average Score Calculator</title>
 	</head>
 	<body>
 		<h1> Average Score Calculator</h1>
 		<div id="input">
 			<h2>Section 1</h2>
-			<input type="number" placeholder="Current grade in points" min="0" id="cur1"><br>
-			<input type="number" placeholder="Possible grade in points" min="0" id="pos1"><br>
-			<input type="number" placeholder="Weight in percent" min="0" max="100" id="weight1"><br><br>
+			<input type="number" placeholder="Current grade in points" min="0" id="cur1"><label for="cur1">Current points earned in Section 1</label><br>
+			<input type="number" placeholder="Possible grade in points" min="0" id="pos1"><label for="pos1">Possible points worth in Section 1</label><br>
+			<input type="number" placeholder="Weight in percent" min="0" max="100" id="weight1"><label for="weight1">Weight of Section 1 in percent format</label><br><br>
 			
 			<h2>Section 2</h2>
-			<input type="number" placeholder="Current grade in points" min="0" id="cur2"><br>
-			<input type="number" placeholder="Possible grade in points" min="0" id="pos2"><br>
-			<input type="number" placeholder="Weight in percent" min="0" max="100" id="weight2"><br><br>
+			<input type="number" placeholder="Current grade in points" min="0" id="cur2"><label for="cur2">Current points earned in Section 2</label><br>
+			<input type="number" placeholder="Possible grade in points" min="0" id="pos2"><label for="pos2">Possible points worth in Section 2</label><br>
+			<input type="number" placeholder="Weight in percent" min="0" max="100" id="weight2"><label for="weight2">Weight of Section 2 in percent format</label><br><br>
 			
 			<h2>Section 3 (optional)</h2>
-			<input type="number" placeholder="Current grade in points" min="0" id="cur3"><br>
-			<input type="number" placeholder="Possible grade in points" min="0" id="pos3"><br>
-			<input type="number" placeholder="Weight in percent (default 0)" min="0" max="100" id="weight3"><br><br>
+			<input type="number" placeholder="Current grade in points" min="0" id="cur3"><label for="cur3">Current points earned in Section 3</label><br>
+			<input type="number" placeholder="Possible grade in points" min="0" id="pos3"><label for="cur3">Possible points worth in Section 3</label><br>
+			<input type="number" placeholder="Weight in percent" min="0" max="100" id="weight3"><label for="weight3">Weight of Section 3 in percent format</label><br><br>
 			
 			<h2>Next updated section</h2>
 			<select id="nextsec">
@@ -30,11 +33,11 @@
 				<option value="1">Section 1</option>
 				<option value="2">Section 2</option>
 				<option value="3">Section 3</option>
-			</select><br>
-			<input type="number" placeholder="Points per assignment" min="0" id="points"><br>
-			<input type="number" placeholder="Number of assignments in the future" min="1" id="future"><br><br>
+			</select><label for="nextsec">Next section to be updated</label><br>
+			<input type="number" placeholder="Points per assignment" min="0" id="points"><label for="points">Average points worth per assignment in this section</label><br>
+			<input type="number" placeholder="Number of assignments in the future" min="1" id="future"><label for="future">Number of assignments to calculate for</label><br><br>
 			
-			<input type="number" placeholder="Desired overall grade in percent" min="0" id="overall"><br>
+			<input type="number" placeholder="Desired overall grade in percent" min="0" id="overall"><label for="overall">Desired overall grade</label><br>
 			<button id="calculate">Calculate Average Score</button>
 			<p id="msg"></p>
 		</div>

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
-
 @keyframes dieOut {
 	from {
 		opacity: 1;
@@ -48,6 +46,10 @@ button {
 	box-sizing: border-box;
 }
 
+label {
+	margin: 3px;
+}
+
 button {
 	background-color: rgb(60, 80, 106);
 	box-shadow: 0 4px rgb(0, 20, 46);
@@ -63,15 +65,17 @@ button.add:active {
 }
 
 button.remove {
-	background-color: rgb(255, 60, 86);
+	background-color: rgb(255, 80, 106);
 	box-shadow: 0 4px rgb(195, 0, 26);
+	color: #222;
 	width: 150px;
 	margin-bottom: 8px;
 }
 
 button.add {
-	background-color: rgb(60, 155, 106);
+	background-color: rgb(80, 175, 126);
 	box-shadow: 0 4px rgb(0, 95, 46);
+	color: #222;
 	width: 250px;
 	margin-bottom: 8px;
 }
@@ -98,36 +102,31 @@ option {
 	color: #aaa;
 }
 
-.hw-item {
+.hw-item,
+.nonmove-item {
 	border: 1px solid #ddd;
 	border-radius: 5px;
-	width: 975px;
-	height: 50px;
-	padding: 5px 4px 5px 4px;
+	width: fit-content;
+	padding: 5px;
 	box-sizing: border-box;
+	display: inline-block;
+	border-style: dashed;
+	margin: 2px;
 }
 
 input[type="text"],
 .hw-item select {
-	width: 250px;
-	margin: 1px;
+	width: 200px;
 }
 
-input[type="time"],
 input[type="date"],
 .hw-item button,
 .nonmove-item button {
 	width: 150px;
-	margin: 1px;
 }
 
-.nonmove-item {
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	width: 725px;
-	height: 50px;
-	padding: 5px 4px 5px 4px;
-	box-sizing: border-box;
+input[type="time"] {
+	width: 100px;
 }
 
 #output {
