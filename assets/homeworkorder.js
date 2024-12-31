@@ -46,19 +46,19 @@ calculate.onclick = function () {
 	for (i = 0; i < document.getElementsByClassName("hw-item").length; i++) {
 		var hwItem = document.getElementsByClassName("hw-item")[i].childNodes;
 		hwItems.push({
-			name: hwItem[0].value,
-			dueDate: hwItem[1].value,
-			difficulty: hwItem[2].value,
-			duration: hwItem[3].value,
-			id: hwItem[1].value + "-" + (4 - hwItem[2].value) + "-" + (1440 - timeToMinutes(hwItem[3].value)).toString().padStart(4, "0") + "-" + i
+			name: hwItem[1].value,
+			dueDate: hwItem[4].value,
+			difficulty: hwItem[7].value,
+			duration: hwItem[10].value,
+			id: hwItem[4].value + "-" + (4 - hwItem[7].value) + "-" + (1440 - timeToMinutes(hwItem[10].value)).toString().padStart(4, "0") + "-" + i
 		});
 	}
 	for (i = 0; i < document.getElementsByClassName("nonmove-item").length; i++) {
 		var event = document.getElementsByClassName("nonmove-item")[i].childNodes;
 		events.push({
-			name: event[0].value,
-			start: event[1].value,
-			end: event[2].value
+			name: event[1].value,
+			start: event[4].value,
+			end: event[7].value
 		});
 	}
 
