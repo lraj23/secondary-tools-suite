@@ -76,7 +76,7 @@ calculate.onclick = function () {
 	hwItems.forEach(function (hwItem) {
 		var d = new Date();
 		var dueDate = hwItem.dueDate;
-		if (dueDate < d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()) {
+		if (dueDate < d.getFullYear() + "-" + (d.getMonth() + 1).toString().padStart(2, "0") + "-" + d.getDate().toString().padStart(2, "0")) {
 			stat("error", "Assignments must be due at least today!");
 			is_err = true;
 		}
